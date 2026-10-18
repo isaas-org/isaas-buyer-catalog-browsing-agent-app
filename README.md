@@ -21,9 +21,11 @@ The server listens on `http://127.0.0.1:8091/mcp` (streamable HTTP). For an agen
 
 ## Tools
 
+Tools are grouped by concern in `src/isaas_buyer_catalog_agent/tools/`, one module per group.
+
 | Tool | What it does |
 |------|--------------|
-| `backend_health` | Reports whether the buyer backend is reachable (`UP`, or `UNREACHABLE` with a reason) |
+| `backend_health` (`tools/mcp_health_check.py`) | Reports whether the buyer backend is reachable (`UP`, or `UNREACHABLE` with a reason) |
 
 Catalog browsing and search tools come next, once the backend exposes those endpoints.
 

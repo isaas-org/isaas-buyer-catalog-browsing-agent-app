@@ -1,8 +1,8 @@
-import httpx
 from mcp.server.mcpserver import MCPServer
 
 from isaas_buyer_catalog_agent.backend import BackendClient
 from isaas_buyer_catalog_agent.config import load_settings
+from isaas_buyer_catalog_agent.tools.mcp_health_check import HealthCheckTools
 
 
 def build_server(backend: BackendClient) -> MCPServer:
@@ -10,16 +10,7 @@ def build_server(backend: BackendClient) -> MCPServer:
         name="isaas-buyer-catalog",
         instructions="Tools for browsing the iSaaS SaaS catalog on behalf of a buyer company.",
     )
-
-    @server.tool()
-    async def backend_health() -> dict[str, str]:
-        """Report whether the iSaaS buyer catalog backend is reachable."""
-        try:
-            body = await backend.health()
-        except httpx.HTTPError as err:
-            return {"status": "UNREACHABLE", "detail": str(err)}
-        return {"status": str(body.get("status", "UNKNOWN"))}
-
+    HealthCheckTools(backend).register(server)
     return server
 
 
